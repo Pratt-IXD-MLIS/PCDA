@@ -1,0 +1,32 @@
+{
+  "name": "docsystem",
+  "version": "0.0.1",
+  "description": "A document management system for organizing and sharing various document types",
+  "private": true,
+  "scripts": {
+    "start": "node ./docsystem.js",
+    "dev": "concurrently --hide 0 \"npm run sass:watch\" \"nodemon docsystem.js\"",
+    "sass": "sass --watch scss:public/css",
+    "sass:watch": "sass --watch scss/styles.scss public/css/styles.css --quiet"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "bootstrap": "^5.3.3",
+    "connect-pg-simple": "^10.0.0",
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.10.0",
+    "date-fns": "^2.30.0",
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
+    "express-session": "^1.18.1",
+    "lodash": "^4.17.21",
+    "method-override": "^3.0.0",
+    "pg": "^8.14.1",
+    "sass": "^1.88.0",
+    "scss": "^0.2.4"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
+  }
+}

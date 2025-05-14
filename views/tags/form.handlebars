@@ -1,0 +1,27 @@
+<div class="content-section">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h1 class="mb-0 fs-4">New Tag</h1>
+    </div>
+    <div class="card-body">
+      <form action="/tags/upsert" role="form" method="post">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+        {{#if genre}}
+          <div class="mb-3">
+            <h2 class="fs-5 badge bg-info text-dark">{{genre.name}}</h2>
+            <input type="hidden" name="id" value="{{genre.id}}">
+          </div>
+        {{/if}}
+        <div class="mb-3">
+          <label for="name" class="form-label">Tags</label>
+          <input type="text" class="form-control" id="name" name="name" {{#if genre}}value="{{genre.name}}"{{/if}} placeholder="Enter tag name">
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="submit" class="btn custom-btn-primary">
+            <i class="bi bi-check-circle me-1"></i>Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

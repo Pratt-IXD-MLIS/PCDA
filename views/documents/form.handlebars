@@ -1,0 +1,163 @@
+<div class="content-section">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h1 class="mb-0"><i class="fas fa-link me-2"></i>{{#if document}}Edit{{else}}Add New{{/if}} Document URL</h1>
+    </div>
+    <div class="card-body">
+      <form id="documentForm" action="/documents/upsert" role="form" method="post" class="needs-validation" novalidate>
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <div id="validationErrors" class="alert alert-danger d-none mb-3">
+          <h5><i class="fas fa-exclamation-triangle me-2"></i>Please fix the following errors:</h5>
+          <ul id="errorList" class="mb-0">
+          </ul>
+        </div>
+        {{#if document}}
+          <div class="alert alert-info mb-4">
+            <h4 class="mb-0">Editing: {{document.title}}</h4>
+            <input type="hidden" name="id" value="{{document.id}}">
+          </div>
+        {{/if}}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="title" name="title" {{#if document}}value="{{document.title}}"{{/if}} required aria-describedby="titleFeedback">
+            <div id="titleFeedback" class="invalid-feedback">
+              Please enter a document title.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="publishing_year" class="form-label">Publishing Year</label>
+            <input type="number" class="form-control" step="1" placeholder="2000" id="publishing_year" name="publishingYear" {{#if document}}value="{{document.publishingYear}}"{{/if}}>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="url" class="form-label">Document URL <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-link"></i></span>
+            <input type="url" class="form-control" id="url" name="url" placeholder="https://example.com/document"
+                pattern="^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$"
+                title="Enter a valid URL (e.g., https://example.com)"
+                {{#if document}}value="{{document.url}}"{{/if}} required aria-describedby="urlFeedback">
+          </div>
+          <div id="urlFeedback" class="invalid-feedback">
+            Please enter a valid URL starting with http:// or https://
+          </div>
+          <small class="text-muted">Enter the full URL including http:// or https:// to the document resource</small>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="tag_id" class="form-label">Tag</label>
+            <select name="tagId" id="tag_id" class="form-select">
+              <option disabled value>-- select tag --</option>
+              {{#each tags}}
+                <option value="{{this.id}}" {{#if (and @root.document (eq @root.document.tagId this.id))}}selected{{/if}}>
+                  {{this.name}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="document_type" class="form-label">Document Type</label>
+            <select name="documentType" id="document_type" class="form-select">
+              <option value="ARTICLE" {{#if (and document (eq document.documentType "ARTICLE"))}}selected{{else}}{{#unless document}}selected{{/unless}}{{/if}}>Article</option>
+              <option value="BOOK" {{#if (and document (eq document.documentType "BOOK"))}}selected{{/if}}>Book</option>
+              <option value="PAPER" {{#if (and document (eq document.documentType "PAPER"))}}selected{{/if}}>Research Paper</option>
+              <option value="THESIS" {{#if (and document (eq document.documentType "THESIS"))}}selected{{/if}}>Thesis</option>
+              <option value="REPORT" {{#if (and document (eq document.documentType "REPORT"))}}selected{{/if}}>Report</option>
+              <option value="WEBSITE" {{#if (and document (eq document.documentType "WEBSITE"))}}selected{{/if}}>Website</option>
+              <option value="OTHER" {{#if (and document (eq document.documentType "OTHER"))}}selected{{/if}}>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="alert alert-info mb-4">
+          <i class="fas fa-info-circle me-2"></i> This form is for adding document URLs only. No file uploads are accepted.
+        </div>
+
+        <div class="mt-4 d-flex justify-content-end">
+          <button type="button" class="btn custom-btn-outline me-2" onclick="history.back()">Cancel</button>
+          <button type="submit" class="btn custom-btn-primary px-4">
+            <i class="fas fa-save me-2"></i>Save Document URL
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('documentForm');
+    const titleInput = document.getElementById('title');
+    const urlInput = document.getElementById('url');
+    const validationErrorsDiv = document.getElementById('validationErrors');
+    const errorList = document.getElementById('errorList');
+
+    form.addEventListener('submit', function(event) {
+      // Clear previous errors
+      validationErrorsDiv.classList.add('d-none');
+      errorList.innerHTML = '';
+      form.classList.remove('was-validated');
+
+      let isValid = true;
+      let errors = [];
+
+      // Validate title
+      if (!titleInput.value.trim()) {
+        errors.push('Title is required');
+        titleInput.classList.add('is-invalid');
+        isValid = false;
+      } else {
+        titleInput.classList.remove('is-invalid');
+        titleInput.classList.add('is-valid');
+      }
+
+      // Validate URL
+      const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+      if (!urlInput.value.trim()) {
+        errors.push('URL is required');
+        urlInput.classList.add('is-invalid');
+        isValid = false;
+      } else if (!urlPattern.test(urlInput.value.trim())) {
+        errors.push('Please enter a valid URL (e.g., https://example.com)');
+        urlInput.classList.add('is-invalid');
+        isValid = false;
+      } else {
+        urlInput.classList.remove('is-invalid');
+        urlInput.classList.add('is-valid');
+      }
+
+      // If there are errors, prevent form submission and show errors
+      if (!isValid) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Display errors
+        errors.forEach(error => {
+          const li = document.createElement('li');
+          li.textContent = error;
+          errorList.appendChild(li);
+        });
+
+        validationErrorsDiv.classList.remove('d-none');
+
+        // Scroll to the top of the form to show the error messages
+        validationErrorsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        form.classList.add('was-validated');
+      }
+    });
+
+    // Real-time validation feedback
+    titleInput.addEventListener('input', function() {
+      if (titleInput.value.trim()) {
+        titleInput.classList.remove('is-invalid');
+      }
+    });
+
+    urlInput.addEventListener('input', function() {
+      if (urlInput.value.trim() && urlInput.validity.valid) {
+        urlInput.classList.remove('is-invalid');
+      }
+    });
+  });
+</script>

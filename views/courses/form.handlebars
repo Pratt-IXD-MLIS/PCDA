@@ -1,0 +1,62 @@
+<div class="content-section">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="h4 mb-0">{{#if isNew}}New Course{{else}}Edit Course{{/if}}</h2>
+        </div>
+        <div class="card-body">
+          {{#if errors}}
+          <div class="alert alert-danger">
+            <h5>Please fix the following errors:</h5>
+            <ul class="mb-0">
+              {{#each errors}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+          {{/if}}
+
+          <form action="/courses{{#unless isNew}}/{{course.id}}{{/unless}}" method="post" class="needs-validation" novalidate>
+            <input type="hidden" name="_csrf" value="{{_csrfToken}}">
+
+            <div class="mb-3">
+              <label for="code" class="form-label">Course Code <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="code" name="code" value="{{course.code}}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="title" class="form-label">Course Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="title" name="title" value="{{course.title}}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+              <select class="form-select" id="department" name="department" required>
+                <option value="">Select Department</option>
+                {{#each departments}}
+                <option value="{{this}}" {{#if (eq this ../course.department)}}selected{{/if}}>{{this}}</option>
+                {{/each}}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="credits" class="form-label">Credits <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="credits" name="credits" value="{{course.credits}}" min="0" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" rows="4">{{course.description}}</textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <a href="/courses" class="btn custom-btn-outline">Cancel</a>
+              <button type="submit" class="btn custom-btn-primary">Save Course</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,753 @@
+<div class="container py-5">
+  <!-- User Profile Card -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <div class="bg-light rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user fa-3x text-primary"></i>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <h2 class="card-title mb-3">{{user.name}}</h2>
+              <p class="card-text text-muted mb-1">
+                <i class="fas fa-envelope me-2"></i>{{user.email}}
+              </p>
+              <p class="card-text text-muted">
+                <i class="fas fa-calendar-alt me-2"></i>Member since: {{formatDate user.created_at "MMMM YYYY"}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Syllabi Tabs -->
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h3 class="mb-4">My Syllabi Collection</h3>
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="todo-tab" data-bs-toggle="tab" data-bs-target="#todo" type="button" role="tab" aria-controls="todo" aria-selected="true">
+            To Read
+            <span class="badge bg-secondary ms-2" id="todo-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reading-tab" data-bs-toggle="tab" data-bs-target="#reading" type="button" role="tab" aria-controls="reading" aria-selected="false">
+            In Progress
+            <span class="badge bg-primary ms-2" id="reading-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab" aria-controls="finished" aria-selected="false">
+            Completed
+            <span class="badge bg-success ms-2" id="finished-count">0</span>
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content p-3 border border-top-0 rounded-bottom" id="myTabContent">
+        <!-- Todo Syllabi -->
+        <div class="tab-pane fade show active" id="todo" role="tabpanel" aria-labelledby="todo-tab">
+          <div class="row" id="todo-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "todo")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-secondary float-end">To Read</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-success update-status" data-document-id="{{this.documentId}}" data-status="reading">Start Reading</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="todo-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-book fa-3x mb-3"></i>
+                <p>You don't have any syllabi to read yet.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reading Syllabi -->
+        <div class="tab-pane fade" id="reading" role="tabpanel" aria-labelledby="reading-tab">
+          <div class="row" id="reading-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "reading")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-primary float-end">In Progress</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h3 class="mb-4">My Syllabi Collection</h3>
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="todo-tab" data-bs-toggle="tab" data-bs-target="#todo" type="button" role="tab" aria-controls="todo" aria-selected="true">
+            To Read
+            <span class="badge bg-secondary ms-2" id="todo-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reading-tab" data-bs-toggle="tab" data-bs-target="#reading" type="button" role="tab" aria-controls="reading" aria-selected="false">
+            In Progress
+            <span class="badge bg-primary ms-2" id="reading-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab" aria-controls="finished" aria-selected="false">
+            Completed
+            <span class="badge bg-success ms-2" id="finished-count">0</span>
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content p-3 border border-top-0 rounded-bottom" id="myTabContent">
+        <!-- Todo Syllabi -->
+        <div class="tab-pane fade show active" id="todo" role="tabpanel" aria-labelledby="todo-tab">
+          <div class="row" id="todo-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "todo")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-secondary float-end">To Read</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-success update-status" data-document-id="{{this.documentId}}" data-status="reading">Start Reading</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="todo-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-book fa-3x mb-3"></i>
+                <p>You don't have any syllabi to read yet.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reading Syllabi -->
+        <div class="tab-pane fade" id="reading" role="tabpanel" aria-labelledby="reading-tab">
+          <div class="row" id="reading-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "reading")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class
+
+</search>
+<div class="container py-5">
+  <!-- User Profile Card -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <div class="bg-light rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user fa-3x text-primary"></i>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <h2 class="card-title mb-3">{{user.name}}</h2>
+              <p class="card-text text-muted mb-1">
+                <i class="fas fa-envelope me-2"></i>{{user.email}}
+              </p>
+              <p class="card-text text-muted">
+                <i class="fas fa-calendar-alt me-2"></i>Member since: {{formatDate user.created_at "MMMM YYYY"}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></search>
+</search>
+</search>
+<div class="container py-5">
+  <!-- User Profile Card -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <div class="bg-light rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user fa-3x text-primary"></i>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <h2 class="card-title mb-3">{{user.name}}</h2>
+              <p class="card-text text-muted mb-1">
+                <i class="fas fa-envelope me-2"></i>{{user.email}}
+              </p>
+              <p class="card-text text-muted">
+                <i class="fas fa-calendar-alt me-2"></i>Member since: {{formatDate user.created_at "MMMM YYYY"}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Syllabi Tabs -->
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h3 class="mb-4">My Syllabi Collection</h3>
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="todo-tab" data-bs-toggle="tab" data-bs-target="#todo" type="button" role="tab" aria-controls="todo" aria-selected="true">
+            To Read
+            <span class="badge bg-secondary ms-2" id="todo-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reading-tab" data-bs-toggle="tab" data-bs-target="#reading" type="button" role="tab" aria-controls="reading" aria-selected="false">
+            In Progress
+            <span class="badge bg-primary ms-2" id="reading-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab" aria-controls="finished" aria-selected="false">
+            Completed
+            <span class="badge bg-success ms-2" id="finished-count">0</span>
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content p-3 border border-top-0 rounded-bottom" id="myTabContent">
+        <!-- Todo Syllabi -->
+        <div class="tab-pane fade show active" id="todo" role="tabpanel" aria-labelledby="todo-tab">
+          <div class="row" id="todo-syllabi">
+            {{#each documentsUser}}
+</script>
+
+
+<search>1|<search>1|<h1>{{currentUser.name}}</h1>
+
+My books:
+<ul>
+  {{#each booksUser}}
+    <li>{{this.title}} -- {{this.readStatus}}</li>
+  {{/each}}
+</ul>
+</search>
+<div class="container py-5">
+  <!-- User Profile Card -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <div class="bg-light rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user fa-3x text-primary"></i>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <h2 class="card-title mb-3">{{user.name}}</h2>
+              <p class="card-text text-muted mb-1">
+                <i class="fas fa-envelope me-2"></i>{{user.email}}
+              </p>
+              <p class="card-text text-muted">
+                <i class="fas fa-calendar-alt me-2"></i>Member since: {{formatDate user.created_at "MMMM YYYY"}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Syllabi Tabs -->
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h3 class="mb-4">My Syllabi Collection</h3>
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="todo-tab" data-bs-toggle="tab" data-bs-target="#todo" type="button" role="tab" aria-controls="todo" aria-selected="true">
+            To Read
+            <span class="badge bg-secondary ms-2" id="todo-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reading-tab" data-bs-toggle="tab" data-bs-target="#reading" type="button" role="tab" aria-controls="reading" aria-selected="false">
+            In Progress
+            <span class="badge bg-primary ms-2" id="reading-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab" aria-controls="finished" aria-selected="false">
+            Completed
+            <span class="badge bg-success ms-2" id="finished-count">0</span>
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content p-3 border border-top-0 rounded-bottom" id="myTabContent">
+        <!-- Todo Syllabi -->
+        <div class="tab-pane fade show active" id="todo" role="tabpanel" aria-labelledby="todo-tab">
+          <div class="row" id="todo-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "todo")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-secondary float-end">To Read</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                      <!-- Author section removed -->
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-success update-status" data-document-id="{{this.documentId}}" data-status="reading">Start Reading</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="todo-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-book fa-3x mb-3"></i>
+                <p>You don't have any syllabi to read yet.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reading Syllabi -->
+        <div class="tab-pane fade" id="reading" role="tabpanel" aria-labelledby="reading-tab">
+          <div class="row" id="reading-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "reading")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-primary float-end">In Progress</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                      <!-- Author reference removed -->
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-success update-status" data-document-id="{{this.documentId}}" data-status="finished">Mark Complete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="reading-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-book-reader fa-3x mb-3"></i>
+                <p>You're not currently reading any syllabi.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Finished Syllabi -->
+        <div class="tab-pane fade" id="finished" role="tabpanel" aria-labelledby="finished-tab">
+          <div class="row" id="finished-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "finished")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-success float-end">Completed</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                      <p class="card-text text-muted small">
+                        {{#if this.author}}Author: {{this.author}}{{/if}}
+                      </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary update-status" data-document-id="{{this.documentId}}" data-status="todo">Read Again</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="finished-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-check-circle fa-3x mb-3"></i>
+                <p>You haven't completed any syllabi yet.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Count syllabi in each category and update badges
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get counts
+    const todoCount = document.querySelectorAll('#todo-syllabi .card').length;
+    const readingCount = document.querySelectorAll('#reading-syllabi .card').length;
+    const finishedCount = document.querySelectorAll('#finished-syllabi .card').length;
+    
+    // Update badges
+    document.getElementById('todo-count').textContent = todoCount;
+    document.getElementById('reading-count').textContent = readingCount;
+    document.getElementById('finished-count').textContent = finishedCount;
+    
+    // Show empty states if needed
+    if (todoCount === 0) {
+      document.getElementById('todo-empty').style.display = 'block';
+    }
+    if (readingCount === 0) {
+      document.getElementById('reading-empty').style.display = 'block';
+    }
+    if (finishedCount === 0) {
+      document.getElementById('finished-empty').style.display = 'block';
+    }
+    
+    // Add event listeners for status update buttons
+    document.querySelectorAll('.update-status').forEach(button => {
+      button.addEventListener('click', function() {
+        const documentId = this.getAttribute('data-document-id');
+        const newStatus = this.getAttribute('data-status');
+        
+        // Send AJAX request to update status
+        // This is a placeholder - you'll need to implement the actual endpoint
+        fetch('/documents/update-status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': document.querySelector('input[name="_csrf"]').value
+          },
+          body: JSON.stringify({
+            documentId: documentId,
+            status: newStatus
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            window.location.reload();
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<div class="container py-5">
+  <!-- User Profile Card -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <div class="bg-light rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user fa-3x text-primary"></i>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <h2 class="card-title mb-3">{{user.name}}</h2>
+              <p class="card-text text-muted mb-1">
+                <i class="fas fa-envelope me-2"></i>{{user.email
+
+<search>1|<h1>{{currentUser.name}}</h1>
+
+My books:
+<ul>
+  {{#each booksUser}}
+    <li>{{this.title}} -- {{this.readStatus}}</li>
+  {{/each}}
+</ul>
+</search>
+<div class="container py-5">
+  <!-- User Profile Card -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-0 shadow">
+        <div class="card-body p-4">
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <div class="bg-light rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user fa-3x text-primary"></i>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <h2 class="card-title mb-3">{{user.name}}</h2>
+              <p class="card-text text-muted mb-1">
+                <i class="fas fa-envelope me-2"></i>{{user.email}}
+              </p>
+              <p class="card-text text-muted">
+                <i class="fas fa-calendar-alt me-2"></i>Member since: {{formatDate user.created_at "MMMM YYYY"}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Syllabi Tabs -->
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h3 class="mb-4">My Syllabi Collection</h3>
+      
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="todo-tab" data-bs-toggle="tab" data-bs-target="#todo" type="button" role="tab" aria-controls="todo" aria-selected="true">
+            To Read
+            <span class="badge bg-secondary ms-2" id="todo-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reading-tab" data-bs-toggle="tab" data-bs-target="#reading" type="button" role="tab" aria-controls="reading" aria-selected="false">
+            In Progress
+            <span class="badge bg-primary ms-2" id="reading-count">0</span>
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#finished" type="button" role="tab" aria-controls="finished" aria-selected="false">
+            Completed
+            <span class="badge bg-success ms-2" id="finished-count">0</span>
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content p-3 border border-top-0 rounded-bottom" id="myTabContent">
+        <!-- Todo Syllabi -->
+        <div class="tab-pane fade show active" id="todo" role="tabpanel" aria-labelledby="todo-tab">
+          <div class="row" id="todo-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "todo")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-secondary float-end">To Read</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                      <p class="card-text text-muted small">
+                        {{#if this.author}}Author: {{this.author}}{{/if}}
+                      </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-success update-status" data-document-id="{{this.documentId}}" data-status="reading">Start Reading</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="todo-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-book fa-3x mb-3"></i>
+                <p>You don't have any syllabi to read yet.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reading Syllabi -->
+        <div class="tab-pane fade" id="reading" role="tabpanel" aria-labelledby="reading-tab">
+          <div class="row" id="reading-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "reading")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-primary float-end">In Progress</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                      <p class="card-text text-muted small">
+                        {{#if this.author}}Author: {{this.author}}{{/if}}
+                      </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-success update-status" data-document-id="{{this.documentId}}" data-status="finished">Mark Complete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="reading-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-book-reader fa-3x mb-3"></i>
+                <p>You're not currently reading any syllabi.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Finished Syllabi -->
+        <div class="tab-pane fade" id="finished" role="tabpanel" aria-labelledby="finished-tab">
+          <div class="row" id="finished-syllabi">
+            {{#each documentsUser}}
+              {{#if (eq this.readStatus "finished")}}
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                      <span class="badge bg-success float-end">Completed</span>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.title}}</h5>
+                      <p class="card-text text-muted small">
+                        {{#if this.author}}Author: {{this.author}}{{/if}}
+                      </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3">
+                      <div class="d-flex justify-content-between">
+                        <a href="/documents/{{this.documentId}}" class="btn btn-sm btn-outline-primary">View</a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary update-status" data-document-id="{{this.documentId}}" data-status="todo">Read Again</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5" id="finished-empty" style="display: none;">
+              <div class="text-muted">
+                <i class="fas fa-check-circle fa-3x mb-3"></i>
+                <p>You haven't completed any syllabi yet.</p>
+                <a href="/syllabi" class="btn btn-outline-primary">Browse Syllabi</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Count syllabi in each category and update badges
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get counts
+    const todoCount = document.querySelectorAll('#todo-syllabi .card').length;
+    const readingCount = document.querySelectorAll('#reading-syllabi .card').length;
+    const finishedCount = document.querySelectorAll('#finished-syllabi .card').length;
+    
+    // Update badges
+    document.getElementById('todo-count').textContent = todoCount;
+    document.getElementById('reading-count').textContent = readingCount;
+    document.getElementById('finished-count').textContent = finishedCount;
+    
+    // Show empty states if needed
+    if (todoCount === 0) {
+      document.getElementById('todo-empty').style.display = 'block';
+    }
+    if (readingCount === 0) {
+      document.getElementById('reading-empty').style.display = 'block';
+    }
+    if (finishedCount === 0) {
+      document.getElementById('finished-empty').style.display = 'block';
+    }
+    
+    // Add event listeners for status update buttons
+    document.querySelectorAll('.update-status').forEach(button => {
+      button.addEventListener('click', function() {
+        const documentId = this.getAttribute('data-document-id');
+        const newStatus = this.getAttribute('data-status');
+        
+        // Send AJAX request to update status
+        // This is a placeholder - you'll need to implement the actual endpoint
+        fetch('/documents/update-status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': document.querySelector('input[name="_csrf"]').value
+          },
+          body: JSON.stringify({
+            documentId: documentId,
+            status: newStatus
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            window.location.reload();
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<!-- Books section removed -->
